@@ -154,7 +154,6 @@ app.post('/signup',function(req,resp){
 	var values=req.body;
 	var sql = "INSERT INTO student_info (name,email, password, roll_no, phone_no, room_no, gender) VALUES ('"+values.name+"','"+values.email+"','"+values.password+"','"+values.rollno+"','"+values.phoneno+"','"+values.roomno+"','"+values.gender+"')";
   	//resp.end(next);
-	req.session.email	=	values.email;
   	con.query(sql, function (err, result) {
 	    if (err){ 
 	    	console.log(err);
@@ -208,14 +207,15 @@ app.get('/signin',function(req,resp){
   	}
   	else if(sess.type=="A"){
 		var sql = "SELECT * FROM admin_info WHERE email='"+values.email+"' and password='"+values.password+"'";
-	  	con.query(sql, function (err, result) {
-		    if (err){ 
-		    	console.log(err);
+		con.query(sql, function (err, result) {
+			if (err){ 
+				console.log(err);
 		    	resp.end("false");
 		    	return;
 		    }
 		    //console.log(result.length);
 		    if(result.length==0){
+				req.session.level	=	result.level
 		    	resp.end("false");
 		    	return;
 		    }
@@ -381,6 +381,7 @@ app.get('/changeStudentPass',function(res,req){
 });
 
 app.get('/changeStudentPhone',function(res,req){
+	
 	studentJS.changeStudentPhone(res,req,con);
 });
 

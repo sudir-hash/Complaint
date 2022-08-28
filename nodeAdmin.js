@@ -1,5 +1,7 @@
 var fs=require('fs');
 
+
+
 function getAllEquipment(req,res,con){
 	var sql="select distinct(equipment) from master_data";
 	con.query(sql,function(err,result){
@@ -13,6 +15,7 @@ function getAllEquipment(req,res,con){
 
 
 function getAllHistory(req,res,con){
+	
 	var values=req.query;
 	var sInfoRadio=values.sInfoRadio;
 	var sInfoValue="";
@@ -143,6 +146,7 @@ function assignWorkHelper(Data,slot,result,status,res,con){
 }
 
 function assignWork(electricianData,carpenterData,con,res){
+	
 	var sql="select complaint_id,time_slot,catagory,status from complaint_info where status<2";
 	con.query(sql,function(err,result){
 		if(err){
