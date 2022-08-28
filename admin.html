@@ -287,6 +287,7 @@
 				</header>
 				<div class="w3-container fontSourceSansPro">
 					<input id="admin_id" name="admin_id" value="" style="display:none;">
+					<input id="level" name="level" value="" style="display:none;">
 					<h2><span class="fa fa-user-o w3-col m2 s4"></span></h2>
 					<h3><span id="actype" class="w3-rest"></span></h3>
 					<h2><span class="fa fa-envelope-o w3-col m2 s4"></span></h2>
@@ -397,10 +398,12 @@
 					return;
 				}
 				data = JSON.parse(data);
-				//console.log(data);
+				
 				$('#assignForm').html('');
-				for (i in data)
+				for (i in data){
 					createAssignForm(data[i]);
+
+				}
 				$('#assignForm').append(
 					'<div class="w3-center w3-margin-top">' +
 					'<input class="w3-button w3-flat-belize-hole w3-hover-blue" type="submit" id="submitAssign" value="Generate">' +
@@ -467,7 +470,7 @@
 	});
 
 	var assignForm = $('#assignForm');
-
+	var cids=[]
 	assignForm.submit(function () {
 		$.ajax({
 			type: assignForm.attr('method'),
@@ -517,9 +520,10 @@
 			},
 			success: function (data) {
 				data = JSON.parse(data);
-				//console.log(data);
+				console.log(data);
 				$("#historyDivChild").html("");
 				for (var i = 0; i < data.length; ++i) {
+					// console.log(data[i])
 					createHistory(data[i]);
 				}
 				if ($('#historyHandymanCheck').prop('checked') == false) {
@@ -551,6 +555,7 @@
 		$('#infoButton').trigger('click');
 	});
 
+	
 
 	$("#infoButton").click(function () {
 		$.ajax({
@@ -567,6 +572,7 @@
 					var value = JSON.parse(data);
 					//console.log(value);
 					$("#admin_id").val(value[0].admin_id);
+					$("#level").val(value[0].level);
 					$("#userName").html("&nbsp;&nbsp;&nbsp;&nbsp;" + value[0].name);
 					$("#actype").html("&nbsp;&nbsp; Admin");
 					$("#email").html("&nbsp;&nbsp; " + value[0].email);
@@ -684,6 +690,13 @@
 		if (c.status == 3) {
 			c.status = "Closed";
 		}
+		let admin_level	=	$("#level").val()
+		if(cids.indexOf(c.complaint_id)!=-1 || admin_level<c.priority){
+			// if() 
+				return;
+		}
+		cids.push(c.complaint_id);
+		
 		$('#historyDivChild').append(
 			'<div class=" w3-panel w3-white" id="panel_' + c.complaint_id + '">' +
 			'<div name="historyComplaintInfo">' +
@@ -798,9 +811,11 @@
 			'</div>' +
 			'</div>' +
 			'</div>' +
-
-
+			
 			'</div>');
+			$('#panel_' + c.complaint_id).append(
+				`<button class="escalate" onclick="escalate(${c.complaint_id},${c.priority})">escalate</button>`
+			)
 		if (c.status == "Solved") {
 			$('#panel_' + c.complaint_id).addClass('w3-border-blue w3-rightbar');
 		}
@@ -813,6 +828,28 @@
 		if (c.status == "Closed") {
 			$('#panel_' + c.complaint_id).addClass('w3-border-green w3-rightbar');
 		}
+	}
+	function escalate(complaint_id,level){
+		console.log(complaint_id,level)
+		$.ajax({
+			type: 'get',
+			url: '/escalateAdmin',
+			data: {
+				"admin_id": $("#admin_id").val(),
+				"complaint_id"	:	complaint_id,
+				"level"			:	level
+			},
+			success: function (data) {
+				if (data == "false") {
+					alert("Something went wrong, Try Again");
+					return false;
+				} else {
+					window.location.reload()
+					return true;
+				}
+			}
+		});
+
 	}
 
 	function createAssignForm(data) {

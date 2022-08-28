@@ -438,6 +438,9 @@ app.get('/changeHandymanPhone',function(res,req){
 	handyManJS.changeHandymanPhone(res,req,con);
 });
 
+app.get('/escalateAdmin',function(res,req){
+	adminJS.escalateAdmin(res,req,con);
+});
 
 
 app.listen(9000,function(){

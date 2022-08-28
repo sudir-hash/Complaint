@@ -38,7 +38,7 @@ function getAllHistory(req,res,con){
 	var type=values.type.trim();
 	var status=values.status.trim();
 	var rating=values.rating.trim();
-	var sql="select * from complaint_info c,handyman_info h,student_info s ";
+	var sql="select * from complaint_info c,handyman_info h,student_info s where c.priority>0 ";
 	// if(handyman_id!=""){
 	// 	sql+="and c.handyman_id="+handyman_id+" ";
 	// }
@@ -90,12 +90,18 @@ function getAllHistory(req,res,con){
 			rating="(4,5)";
 		sql+="and rating in "+rating+" ";
 	}
-
+	if(sql.includes("where")){
+		console.log(sql)
+	}
 	con.query({sql:sql,nestTables: true},function(err,result){
 		if(err){
 			console.log(err);
 			res.end("false");
 		}
+		let res_obj	=	[]
+		
+		console.log(result)
+		
 		res.end(JSON.stringify(result));
 	})
 };
@@ -260,6 +266,35 @@ function adminGetIndexPageData(req,res){
 	});
 }
 
+ function escalateAdmin(req,resp,con) {
+	let complaint_id	=	req.query.complaint_id;
+	let admin_id		=	req.query.admin_id;
+	let level			=	req.query.level;
+	console.log(complaint_id,admin_id)
+	if(!admin_id||!complaint_id){
+		resp.end("false")
+	}
+	if(admin_id<3);
+	{	
+		
+		if(level===undefined ||level>3){	
+			resp.end("false")
+		}
+		
+		sql	=	`update complaint_info set priority=${level}+1`
+		console.log(sql);
+
+		 con.query(sql,(err,res)=>{
+			console.log("successfully modifed priority")
+		})
+		resp.end("true")
+
+
+	}
+
+	resp.end("false")
+}
+
 module.exports={
 	assign: function(req,res,con){
 		//return "yes";
@@ -352,5 +387,8 @@ module.exports={
 
 	adminGetIndexPageData:function(req,res){
 		adminGetIndexPageData(req,res);
+	},
+	escalateAdmin:function (req,res,con) {
+		escalateAdmin(req,res,con);	
 	}
 }

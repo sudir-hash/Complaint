@@ -28,6 +28,7 @@ CREATE TABLE `admin_info` (
   `password` varchar(150) NOT NULL,
   `name` varchar(150) NOT NULL,
   `phone_no` varchar(20) NOT NULL,
+  `level`   int(1) NOT NULL,
   PRIMARY KEY (`admin_id`),
   UNIQUE KEY `admin_id_UNIQUE` (`admin_id`),
   UNIQUE KEY `email_id_UNIQUE` (`email`)
@@ -40,7 +41,7 @@ CREATE TABLE `admin_info` (
 
 LOCK TABLES `admin_info` WRITE;
 /*!40000 ALTER TABLE `admin_info` DISABLE KEYS */;
-INSERT INTO `admin_info` VALUES (1,'service@iiitb.org','thanksiiitb','Admin','9998889990');
+INSERT INTO `admin_info` VALUES (1,'service@iiitb.org','thanksiiitb','Admin','9998889990',1);
 /*!40000 ALTER TABLE `admin_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
