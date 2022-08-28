@@ -42,6 +42,7 @@ CREATE TABLE `admin_info` (
 LOCK TABLES `admin_info` WRITE;
 /*!40000 ALTER TABLE `admin_info` DISABLE KEYS */;
 INSERT INTO `admin_info` VALUES (1,'service@iiitb.org','thanksiiitb','Admin','9998889990',1);
+INSERT INTO `admin_info` VALUES (1,'service@b.org','tks','Admin','9998889990',2);
 /*!40000 ALTER TABLE `admin_info` ENABLE KEYS */;
 UNLOCK TABLES;
 

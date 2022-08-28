@@ -103,7 +103,7 @@ function getAllHistory(req,res,con){
 		}
 		let res_obj	=	[]
 		
-		console.log(result)
+		// console.log(result)
 		
 		res.end(JSON.stringify(result));
 	})
@@ -278,14 +278,14 @@ function adminGetIndexPageData(req,res){
 	if(!admin_id||!complaint_id){
 		resp.end("false")
 	}
-	if(admin_id<3);
+	if(level<3);
 	{	
 		
 		if(level===undefined ||level>3){	
 			resp.end("false")
 		}
 		
-		sql	=	`update complaint_info set priority=${level}+1`
+		sql	=	`update complaint_info set priority=${level}+1 where complaint_id=${complaint_id}`
 		console.log(sql);
 
 		 con.query(sql,(err,res)=>{

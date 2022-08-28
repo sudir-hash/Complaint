@@ -398,12 +398,10 @@
 					return;
 				}
 				data = JSON.parse(data);
-				
+				//console.log(data);
 				$('#assignForm').html('');
-				for (i in data){
+				for (i in data)
 					createAssignForm(data[i]);
-
-				}
 				$('#assignForm').append(
 					'<div class="w3-center w3-margin-top">' +
 					'<input class="w3-button w3-flat-belize-hole w3-hover-blue" type="submit" id="submitAssign" value="Generate">' +
@@ -523,7 +521,6 @@
 				console.log(data);
 				$("#historyDivChild").html("");
 				for (var i = 0; i < data.length; ++i) {
-					// console.log(data[i])
 					createHistory(data[i]);
 				}
 				if ($('#historyHandymanCheck').prop('checked') == false) {
@@ -553,11 +550,8 @@
 
 	$(document).ready(function () {
 		$('#infoButton').trigger('click');
-		window.history.pushState("", "", '/admin');
-
 	});
 
-	
 
 	$("#infoButton").click(function () {
 		$.ajax({
@@ -693,10 +687,14 @@
 			c.status = "Closed";
 		}
 		let admin_level	=	$("#level").val()
-		if(cids.indexOf(c.complaint_id)!=-1 || admin_level<c.priority){
+		c.priority	=	Number(c.priority)
+		if(cids.indexOf(c.complaint_id)!=-1 ){
 			// if() 
 				return;
 		}
+		if(admin_level!=c.priority)
+			return
+		console.log(admin_level,c.priority);
 		cids.push(c.complaint_id);
 		
 		$('#historyDivChild').append(
@@ -813,7 +811,7 @@
 			'</div>' +
 			'</div>' +
 			'</div>' +
-			
+
 			'</div>');
 			$('#panel_' + c.complaint_id).append(
 				`<button class="escalate" onclick="escalate(${c.complaint_id},${c.priority})">escalate</button>`

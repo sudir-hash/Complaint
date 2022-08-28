@@ -450,8 +450,7 @@ app.get('/adminComplaintAnalysis',function(res,req){
 });
 
 app.get('/adminGetAllHistory',function(req,res){
-	if(!req.session.email)
-		res.redirect('/signin')
+
 	adminJS.getAllHistory(req,res,con);
 })
 
