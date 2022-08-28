@@ -62,6 +62,12 @@ app.use(express.static(__dirname + ''));
 app.use(express.static(__dirname + '/fa'));
 app.use(session({secret: 'key',cookie:{maxAge:600000},saveUninitialized: true,resave: true}));
 
+
+app.use((req,res,next)=>{
+	console.log(req.session)
+	next()
+})
+
 app.get('/',function(req,resp){
 	
 	resp.sendFile(path.resolve('index.html'));
@@ -70,16 +76,54 @@ app.get('/',function(req,resp){
 	//console.log(resp);
 });
 
-app.get('/w3cc.html',function(req,resp){
-	resp.sendFile('studen.html',{root: path.join(__dirname, '')});
+app.get('/student',function(req,resp){
+	let user_role	=	req.session.role;
+
+	let response	=	user_role	==	"student"
+	console.log(response);
+	if(response){
+		resp.sendFile('student.html',{root: path.join(__dirname, '')});
+	}
+	resp.redirect('/')
 })
 
-app.get('/admin.html',function(req,resp){
-	resp.sendFile('admin.html',{root: path.join(__dirname, '')});
-})
+// app.get('/admin.html',function(req,resp){
+// 	if(req.session.role	=='admin'){
+
+// 		resp.sendFile('admin.html',{root: path.join(__dirname, '')});
+// 	}
+// 	console.log("illegal entry");
+	
+// 	resp.redirect('/')
+// })
 // app.get('/main.html',function(req,resp){
 // 	resp.sendFile('main.html',{root: path.join(__dirname, '')});
 // })
+
+
+app.get('/admin',(req,res)=>{
+	let user_role	=	req.session.role;
+
+	let response	=	user_role	==	"admin"
+	console.log(response);
+	if(response){
+		res.sendFile('admin.html',{root: path.join(__dirname, '')});
+	}
+	res.redirect('/')
+})
+
+
+app.get('/handyman',(req,res)=>{
+	let user_role	=	req.session.role;
+
+	let response	=	user_role	==	"handyman"
+	console.log(response);
+	if(response){
+		res.sendFile('handyman.html',{root: path.join(__dirname, '')});
+	}
+	res.redirect('/')
+})
+
 
 app.get('/getData',function(req,resp){
 	var sess=req.query;
@@ -150,6 +194,11 @@ app.get('/getData',function(req,resp){
 	//console.log(resp);
 })
 
+app.get('/get/session/details',(req,resp)=>{
+	console.log(req)
+	resp.end(JSON.stringify(req.session.email))
+})
+
 app.post('/signup',function(req,resp){
 	var values=req.body;
 	var sql = "INSERT INTO student_info (name,email, password, roll_no, phone_no, room_no, gender) VALUES ('"+values.name+"','"+values.email+"','"+values.password+"','"+values.rollno+"','"+values.phoneno+"','"+values.roomno+"','"+values.gender+"')";
@@ -173,7 +222,8 @@ app.get('/signin',function(req,resp){
 	//console.log(sess.type);
 	if(sess.type=="S"){
 		var sql = "SELECT * FROM student_info WHERE email='"+values.email+"' and password='"+values.password+"'";
-	  	con.query(sql, function (err, result) {
+	  	
+		con.query(sql, function (err, result) {
 		    if (err){ 
 		    	console.log(err);
 		    	resp.end("false");
@@ -184,9 +234,11 @@ app.get('/signin',function(req,resp){
 		    	resp.end("false");
 		    	return;
 		    }
+			req.session.role	=	"student";
 		    resp.end(JSON.stringify(result));
-		    return;
+			return;
 	  	});
+		
   	}
   	else if(sess.type=="H"){
 		var sql = "SELECT * FROM handyman_info WHERE email='"+values.email+"' and password='"+values.password+"'";
@@ -201,8 +253,9 @@ app.get('/signin',function(req,resp){
 		    	resp.end("false");
 		    	return;
 		    }
+			req.session.role	=	"handyman";
 		    resp.end(JSON.stringify(result));
-		    return;
+			return;
 	  	});
   	}
   	else if(sess.type=="A"){
@@ -219,6 +272,7 @@ app.get('/signin',function(req,resp){
 		    	resp.end("false");
 		    	return;
 		    }
+			req.session.role	=	"admin";
 		    resp.end(JSON.stringify(result));
 		    return;
 	  	});
@@ -238,7 +292,6 @@ app.get('/logout',function(req,resp){
         else  
         {  
 			resp.end("true");
-            // resp.redirect('/');  
         }  
     });  
 });
@@ -381,7 +434,6 @@ app.get('/changeStudentPass',function(res,req){
 });
 
 app.get('/changeStudentPhone',function(res,req){
-	
 	studentJS.changeStudentPhone(res,req,con);
 });
 
@@ -398,6 +450,8 @@ app.get('/adminComplaintAnalysis',function(res,req){
 });
 
 app.get('/adminGetAllHistory',function(req,res){
+	if(!req.session.email)
+		res.redirect('/signin')
 	adminJS.getAllHistory(req,res,con);
 })
 
