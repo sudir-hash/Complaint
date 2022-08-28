@@ -1,30 +1,63 @@
-var express = require('express');
-var session	= require('express-session');
-var path=require('path');
-var app=express();
-var mysql = require('mysql');
-var fs = require('fs');
-var bodyParser=require('body-parser');
-var adminJS = require('./nodeAdmin.js');
-var handyManJS=require('./nodeHandyMan.js');
-var studentJS=require('./nodeStudent.js');
-app.use(bodyParser());
-var MySQL_Connection_Details;
+const express = require('express');
+const session	= require('express-session');
+const path=require('path');
+const app=express();
+
+const fs = require('fs');
+const bodyParser=require('body-parser');
+
+//local imports
+
+//routes
+
+const adminJS = require('./nodeAdmin.js');
+const handyManJS=require('./nodeHandyMan.js');
+const studentJS=require('./nodeStudent.js');
+
+// db
 var con;
-fs.readFile('MySQL_Connection_Details','utf8',function(err, data) {
-    MySQL_Connection_Details=JSON.parse('{'+data+'}');
-	con = mysql.createConnection(
-		MySQL_Connection_Details
-	);
-	con.connect(function(err) {
-	  if (err){ 
-	  	console.log("Error!") 
-	  	throw err;
-	  }
-	  console.log("Connected!");
-	});
+const mysql = require('mysql');
+const dotenv = require("dotenv");
+dotenv.config()
+
+con = mysql.createConnection(
+    {
+        "host":process.env.host || "localhost",
+        "user":process.env.user,
+        "password":process.env.password,
+        "database":process.env.database
+
+    }
+);
+con.connect(function(err) {
+    if (err){ 
+        console.log("Error!") 
+        throw err;
+    }
+    console.log("Connected!");
 });
 
+// var MySQL_Connection_Details;
+// fs.readFile('MySQL_Connection_Details','utf8',function(err, data) {
+	//     MySQL_Connection_Details=JSON.parse('{'+data+'}');
+// 	con = mysql.createConnection(
+// 		MySQL_Connection_Details
+// 	);
+// 	con.connect(function(err) {
+// 	  if (err){ 
+// 	  	console.log("Error!") 
+// 	  	throw err;
+// 	  }
+// 	  console.log("Connected!");
+// 	});
+// });
+
+
+
+
+// app.use(bodyParser());
+app.use(express.urlencoded({extended: true}));
+app.use(express.json()) // To parse the incoming requests with JSON payloads
 app.use(express.static(__dirname + '/dist'));
 app.use(express.static(__dirname + ''));
 app.use(express.static(__dirname + '/fa'));
@@ -207,7 +240,7 @@ app.post('/userLodge',function(req,res){
 	if(value.type=="personnel")
 		cost=20;
 	var sql="Insert into complaint_info(student_id,subject,description,type,catagory,time_slot,date,cost,otp,descriptionFull)" +
-			"values('"+value.student_id+"','"+value.subject+"','"+value.description+"','"+value.type+"','"+value.category+"','"+value.time_slot+"',NOW(),"+cost+","+otp+",'"+value.descriptionFull+"')";
+			"values('"+value.student_id+"','"+value.subject+"','"+value.description+"','"+value.type+"','"+value.category+"','"+value.time_slot+"',NOW(),"+cost+","+otp+",'"+value.descriptionFull.replace("'",' ')+"')";
 	//"values('1','abc','desc','hostel','carpenter','9-10')";
 	con.query(sql,function(err,result){
 		 if (err){ 
@@ -395,6 +428,6 @@ app.get('/changeHandymanPhone',function(res,req){
 
 
 
-app.listen(8000,function(){
+app.listen(9000,function(){
 	console.log('listening');
 });

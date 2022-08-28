@@ -29,7 +29,8 @@ function getAllHistory(req,res,con){
 	catch(err){
 		handyman_id=""
 	}
-	//console.log(sInfoValue+" "+sInfoRadio);
+	console.log(req.query)
+	console.log(sInfoValue+" "+sInfoRadio);
 	//?subject=any&catagory=any&time_slot=any&type=any&status=any&rating=any
 	var subject=values.subject.trim();
 	var catagory=values.catagory.trim();
@@ -37,10 +38,10 @@ function getAllHistory(req,res,con){
 	var type=values.type.trim();
 	var status=values.status.trim();
 	var rating=values.rating.trim();
-	var sql="select * from complaint_info c,handyman_info h,student_info s where c.handyman_id=h.handyman_id and c.student_id=s.student_id ";
-	if(handyman_id!=""){
-		sql+="and c.handyman_id="+handyman_id+" ";
-	}
+	var sql="select * from complaint_info c,handyman_info h,student_info s ";
+	// if(handyman_id!=""){
+	// 	sql+="and c.handyman_id="+handyman_id+" ";
+	// }
 	if(sInfoValue!=""){
 		if(sInfoRadio=="name"){
 			sql+="and s.name='"+sInfoValue+"' ";
