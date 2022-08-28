@@ -3,8 +3,7 @@ const session	= require('express-session');
 const path=require('path');
 const app=express();
 
-const fs = require('fs');
-const bodyParser=require('body-parser');
+
 
 //local imports
 
@@ -61,6 +60,8 @@ app.use(express.json()) // To parse the incoming requests with JSON payloads
 app.use(express.static(__dirname + '/dist'));
 app.use(express.static(__dirname + ''));
 app.use(express.static(__dirname + '/fa'));
+app.use(session({secret: 'key',cookie:{maxAge:600000},saveUninitialized: true,resave: true}));
+
 app.get('/',function(req,resp){
 	
 	resp.sendFile(path.resolve('index.html'));
@@ -153,6 +154,7 @@ app.post('/signup',function(req,resp){
 	var values=req.body;
 	var sql = "INSERT INTO student_info (name,email, password, roll_no, phone_no, room_no, gender) VALUES ('"+values.name+"','"+values.email+"','"+values.password+"','"+values.rollno+"','"+values.phoneno+"','"+values.roomno+"','"+values.gender+"')";
   	//resp.end(next);
+	req.session.email	=	values.email;
   	con.query(sql, function (err, result) {
 	    if (err){ 
 	    	console.log(err);
@@ -228,7 +230,17 @@ app.get('/signin',function(req,resp){
 })
 
 app.get('/logout',function(req,resp){
-	resp.end("true");
+	console.log(req.session)
+	req.session.destroy(function(err){  
+        if(err){  
+            console.log(err);  
+        }  
+        else  
+        {  
+			resp.end("true");
+            // resp.redirect('/');  
+        }  
+    });  
 });
 
 app.post('/userLodge',function(req,res){
