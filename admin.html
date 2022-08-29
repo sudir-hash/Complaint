@@ -380,7 +380,7 @@
 		url: '/getAllEquipment',
 		success: function (data) {
 			data = JSON.parse(data);
-			//console.log(data);
+			////console.log(data);
 			$("#historyEquipment").html("")
 			$("#historyEquipment").append("<option>Any</option>");
 			for (i in data)
@@ -401,7 +401,7 @@
 					return;
 				}
 				data = JSON.parse(data);
-				//console.log(data);
+				////console.log(data);
 				$('#assignForm').html('');
 				for (i in data)
 					createAssignForm(data[i]);
@@ -435,7 +435,7 @@
 
 				for (i in data) {
 					var handymanType = "Others";
-					//console.log(data[i]);
+					////console.log(data[i]);
 					if (data[i].Catagory == "Electrician") {
 						handymanType = "Electrician"
 					} else if (data[i].Catagory == "Carpenter") {
@@ -484,7 +484,7 @@
 			timeout: 10000,
 			success: function (data) {
 				if (data == "true") {
-					//console.log(typeof data);
+					////console.log(typeof data);
 					$("#submitAssign").fadeOut("slow", function () {
 						$(this).val("DONE");
 						$(this).prop("disabled", true);
@@ -525,7 +525,7 @@
 			},
 			success: function (data) {
 				data = JSON.parse(data);
-				console.log(data);
+				//console.log(data);
 				$("#historyDivChild").html("");
 				for (var i = 0; i < data.length; ++i) {
 					createHistory(data[i]);
@@ -574,7 +574,7 @@
 					window.location.href = "./";
 				else {
 					var value = JSON.parse(data);
-					//console.log(value);
+					////console.log(value);
 					$("#admin_id").val(value[0].admin_id);
 					$("#level").val(value[0].level);
 					$("#userName").html("&nbsp;&nbsp;&nbsp;&nbsp;" + value[0].name);
@@ -589,7 +589,7 @@
 					url: '/adminComplaintAnalysis',
 					success: function (data) {
 						data = JSON.parse(data);
-						//console.log(data);
+						////console.log(data);
 						if (data != "false") {
 							$("#complaintsRegistered").html(data[0].total);
 							if (data.length > 1) {
@@ -696,13 +696,13 @@
 		}
 		let admin_level	=	$("#level").val()
 		c.priority	=	Number(c.priority)
-		// console.log("Priority",c.priority);
+		// //console.log("Priority",c.priority);
 		if(cids.indexOf(c.complaint_id)!=-1 ){
 				return;
 		}
 		if(admin_level!=c.priority)
 			return
-		// console.log(admin_level,c.priority);
+		// //console.log(admin_level,c.priority);
 		cids.push(c.complaint_id);
 		
 		$('#historyDivChild').append(
@@ -838,7 +838,7 @@
 		}
 	}
 	function escalate(complaint_id,level){
-		console.log(complaint_id,level)
+		//console.log(complaint_id,level)
 		$.ajax({
 			type: 'get',
 			url: '/escalateAdmin',
@@ -887,7 +887,7 @@
 	}
 
 	function createWatch(handymanType, data) {
-		////console.log(data);
+		//////console.log(data);
 		$("#watchDiv" + handymanType).append(
 			'<div class="w3-panel w3-white w3-margin-top ">' +
 			'<div class="w3-row fontSourceSansPro" style="margin:0 auto;">' +

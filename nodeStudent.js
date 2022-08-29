@@ -6,7 +6,7 @@ function changeStudentPassword(req,res,con){
 	var sql="update student_info set password=? where student_id=? and password=?";
 	con.query(sql,[new_pass,student_id,old_pass],function(err,result){
 		if(err!=null){
-			console.log(err);
+			//console.log(err);
 			res.end("false");
 		}
 		else if(result.affectedRows==1)
@@ -22,13 +22,13 @@ function changeStudentPhone(req,res,con){
 	var sql="update student_info set phone_no=? where student_id=?";
 	con.query(sql,[phone,student_id],function(err,result){
 		if(err!=null){
-			console.log(err);
+			//console.log(err);
 			res.end("false");
 		}
 		else if(result.affectedRows==1)
 			res.end("true");
-		//console.log(result);
-		//console.log(req.query);
+		////console.log(result);
+		////console.log(req.query);
 	})
 };
 

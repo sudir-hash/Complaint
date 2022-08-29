@@ -6,7 +6,7 @@ function getAllEquipment(req,res,con){
 	var sql="select distinct(equipment) from master_data";
 	con.query(sql,function(err,result){
 		if(err){
-			console.log(err);
+			//console.log(err);
 			res.end("false");
 		}
 		res.end(JSON.stringify(result));
@@ -32,8 +32,8 @@ function getAllHistory(req,res,con){
 	catch(err){
 		handyman_id=""
 	}
-	console.log(req.query)
-	console.log(sInfoValue+" "+sInfoRadio);
+	// //console.log(req.query)
+	// //console.log(sInfoValue+" "+sInfoRadio);
 	//?subject=any&catagory=any&time_slot=any&type=any&status=any&rating=any
 	var subject=values.subject.trim();
 	var catagory=values.catagory.trim();
@@ -55,7 +55,7 @@ function getAllHistory(req,res,con){
 		if(sInfoRadio=="room"){
 			var r=sInfoValue.split(" ")[1];
 			var g=sInfoValue.split(" ")[0];
-			//console.log(r+" "+g);
+			////console.log(r+" "+g);
 			sql+="and room_no="+r+" and gender='"+g+"' ";
 		}
 	}
@@ -94,16 +94,16 @@ function getAllHistory(req,res,con){
 		sql+="and rating in "+rating+" ";
 	}
 	if(sql.includes("where")){
-		console.log(sql)
+		//console.log(sql)
 	}
 	con.query({sql:sql,nestTables: true},function(err,result){
 		if(err){
-			console.log(err);
+			//console.log(err);
 			res.end("false");
 		}
 		let res_obj	=	[]
 		
-		// console.log(result)
+		// //console.log(result)
 		
 		res.end(JSON.stringify(result));
 	})
@@ -129,7 +129,7 @@ function assignWorkHelper(Data,slot,result,status,res,con){
 			var sql="update complaint_info set handyman_id="+id+", status=1 where complaint_id="+result.complaint_id;
 		con.query(sql,function(err,result){
 			if(err){
-				console.log(err);
+				//console.log(err);
 				res.end("false");
 				return;
 			}
@@ -146,20 +146,20 @@ function assignWorkHelper(Data,slot,result,status,res,con){
 }
 
 function assignWork(electricianData,carpenterData,con,res,admin_level){
-	console.log("e",admin_level);
+	//console.log("e",admin_level);
 	if(typeof(admin_level)=="undefined"){
 		res.end("false")
 	}
 	var sql="select complaint_id,time_slot,catagory,status,priority from complaint_info c where status<2 and c.priority = "+Number(admin_level);
-	console.log(sql);
+	//console.log(sql);
 	con.query(sql,function(err,result){
 		if(err){
-			console.log(err);
+			//console.log(err);
 			res.end("false");
 			return;
 		}
 		else{
-			//console.log(result);
+			////console.log(result);
 			var slot="slot1";
 			var e=0;
 			var c=0;
@@ -172,7 +172,7 @@ function assignWork(electricianData,carpenterData,con,res,admin_level){
 					slot="slot3";
 				if(result[i].catagory=="Electrician" ){
 					e=assignWorkHelper(electricianData,slot,result[i],result[i].status,res,con);
-					//console.log("e="+e)
+					////console.log("e="+e)
 					if(e>=0){
 						electricianData[e][slot]++;
 						electricianData[e]['issued']++;
@@ -191,20 +191,20 @@ function assignWork(electricianData,carpenterData,con,res,admin_level){
 			
 				con.query(sql,function(err,result){
 					if(err!=null){
-						console.log(err);
+						//console.log(err);
 						res.end("false");
 						return;
 					}
 				});
 			}
 			for(i in carpenterData){
-				//console.log(electricianData[i]['handyman_id']);
-				//console.log(electricianData[i]['issued']);
+				////console.log(electricianData[i]['handyman_id']);
+				////console.log(electricianData[i]['issued']);
 				sql="update handyman_info set slot1="+carpenterData[i]['slot1']+",slot2="+carpenterData[i]['slot2']+",slot3="+carpenterData[i]['slot3']+",issued="+carpenterData[i]['issued']+" where handyman_id="+carpenterData[i]['handyman_id'];
 				//sql="update handyman_info set slot1="+electricianData[i]['slot1']+",slot2="+electricianData[i]['slot2']+",slot3="+electricianData[i]['slot3']+",issued=issued+"+electricianData[i]['issued']+"where handyman_id="+electricianData[i]['handyman_id'];
 				con.query(sql,function(err,result){
 					if(err!=null){
-						console.log(err);
+						//console.log(err);
 						res.end("false");
 						return;
 					}
@@ -223,7 +223,7 @@ function changeAdminPassword(req,res,con){
 	var sql="update admin_info set password=? where admin_id=? and password=?";
 	con.query(sql,[new_pass,admin_id,old_pass],function(err,result){
 		if(err!=null){
-			console.log(err);
+			//console.log(err);
 			res.end("false");
 		}
 		else if(result.affectedRows==1)
@@ -239,13 +239,13 @@ function changeAdminPhone(req,res,con){
 	var sql="update admin_info set phone_no=? where admin_id=?";
 	con.query(sql,[phone,admin_id],function(err,result){
 		if(err!=null){
-			console.log(err);
+			//console.log(err);
 			res.end("false");
 		}
 		else if(result.affectedRows==1)
 			res.end("true");
-		//console.log(result);
-		//console.log(req.query);
+		////console.log(result);
+		////console.log(req.query);
 	})
 };
 
@@ -255,7 +255,7 @@ function adminComplaintAnalysis(req,res,con){
 	con.query(sql,function(err,result){
 		if(err)
 		{
-			console.log(err);
+			//console.log(err);
 			res.end("false");
 			return;
 		}
@@ -278,7 +278,7 @@ function adminGetIndexPageData(req,res){
 	let complaint_id	=	req.query.complaint_id;
 	let admin_id		=	req.query.admin_id;
 	let level			=	req.query.level;
-	console.log(complaint_id,admin_id)
+	//console.log(complaint_id,admin_id)
 	if(!admin_id||!complaint_id){
 		resp.end("false")
 	}
@@ -290,10 +290,10 @@ function adminGetIndexPageData(req,res){
 		}
 		
 		sql	=	`update complaint_info set priority=${level}+1 where complaint_id=${complaint_id}`
-		console.log(sql);
+		//console.log(sql);
 
 		 con.query(sql,(err,res)=>{
-			console.log("successfully modifed priority")
+			//console.log("successfully modifed priority")
 		})
 		resp.end("true")
 
@@ -305,7 +305,7 @@ function adminGetIndexPageData(req,res){
 
 module.exports={
 	assign: function(req,res,con,admin_level){
-		// console.log("admn",admin_level);
+		// //console.log("admn",admin_level);
 		if(typeof(admin_level)=="undefined"){
 			res.end("false")
 		}
@@ -317,13 +317,13 @@ module.exports={
 		var sql="update handyman_info set slot1=0,slot2=0,slot3=0,today=0;"
 		con.query(sql,function(err,result){
 			if(err!=null){
-				console.log(err);
+				//console.log(err);
 				res.end("fasle");
 			}
 			sql="select * from handyman_info where Catagory='Electrician' and handyman_id in "+ids;
 			con.query(sql,function(err,result){
 				if(err!=null){
-					console.log(err);
+					//console.log(err);
 					res.end("false");
 					return;
 				}
@@ -335,7 +335,7 @@ module.exports={
 					sql="select * from handyman_info where Catagory='Carpenter' and handyman_id in "+ids;
 					con.query(sql,function(err,result){
 						if(err){
-							console.log(err);
+							//console.log(err);
 							res.end("false");
 							return;
 						}
@@ -357,7 +357,7 @@ module.exports={
 		var sql="select * from handyman_info";
 		con.query(sql,function(err,result){
 			if(err!=null){
-				console.log(err);
+				//console.log(err);
 				res.end("false");
 			}
 			res.end(JSON.stringify(result));
@@ -366,11 +366,11 @@ module.exports={
 	},
 	getHandyManRating:function(req,res,con){
 		var handyman_id=req.query.handyman_id;
-		//console.log(req.query);
+		////console.log(req.query);
 		var sql="select round(avg(rating),2) as rating from complaint_info where handyman_id="+handyman_id+" and rating is not null and rating<>0"
 		con.query(sql,function(err,result){
 			if(err!=null){
-				//console.log(err);
+				////console.log(err);
 				res.end("false");
 				return false;
 			}

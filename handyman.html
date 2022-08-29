@@ -270,7 +270,7 @@
 
 </body>
 <script>
-	//console.log(sessionStorage.sess);
+	////console.log(sessionStorage.sess);
 	$('[name="dashBoardButtons"]').click(function () {
 		$('[name="dashBoardButtons"]').removeClass('w3-border-light-grey w3-rightbar w3-flat-belize-hole');
 		$(this).addClass('w3-border-light-grey w3-rightbar w3-flat-belize-hole');
@@ -297,7 +297,7 @@
 					return;
 				}
 				data = JSON.parse(data);
-				//console.log(data);
+				////console.log(data);
 				$('[id^="workDivChildSlot"]').html('');
 				for (i in data) {
 					if (data[i].time_slot == "10:00-12:00")
@@ -338,16 +338,16 @@
 				'type': sessionStorage.type
 			},
 			success: function (data) {
-				//console.log(data);
+				////console.log(data);
 				if (data == "false")
 					window.location.href = "./";
 				else {
 					var value = JSON.parse(data);
-					//console.log(value);
+					////console.log(value);
 					$("#userName").html("&nbsp;&nbsp;&nbsp;&nbsp;" + value[0].name);
 
 					$("#handyman_id").val(value[0].handyman_id);
-					////console.log("aaa "+$("#student_id").val());
+					//////console.log("aaa "+$("#student_id").val());
 					$("#actype").html("&nbsp;&nbsp; HandyMan");
 					$("#catagory").html("&nbsp;&nbsp; " + value[0].Catagory);
 
@@ -376,7 +376,7 @@
 				'handyman_id': $("#handyman_id").val()
 			},
 			success: function (data) {
-				//console.log(data);
+				////console.log(data);
 				if (data == "false") {
 					alert("Try Again");
 				} else if (data == "Wrong OTP") {
@@ -497,7 +497,7 @@
 
 
 	$("#historyButton").click(function () {
-		//console.log($('#historySelectType').val());
+		////console.log($('#historySelectType').val());
 		$.ajax({
 			type: 'get',
 			url: '/handyManComplaintHistory',
@@ -507,7 +507,7 @@
 			},
 			success: function (data) {
 				data = JSON.parse(data);
-				//console.log(data);
+				////console.log(data);
 				$("#historyDivChild").html("");
 				for (var i = 0; i < data.length; ++i) {
 					createWork('historyDivChild', data[i], true);

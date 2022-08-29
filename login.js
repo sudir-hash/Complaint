@@ -33,7 +33,7 @@ con.connect(function(err) {
         console.log("Error!") 
         throw err;
     }
-    console.log("Connected!");
+    console.log("DB Connected!");
 });
 
 // var MySQL_Connection_Details;
@@ -44,10 +44,10 @@ con.connect(function(err) {
 // 	);
 // 	con.connect(function(err) {
 // 	  if (err){ 
-// 	  	console.log("Error!") 
+// 	  	//console.log("Error!") 
 // 	  	throw err;
 // 	  }
-// 	  console.log("Connected!");
+// 	  //console.log("Connected!");
 // 	});
 // });
 
@@ -63,24 +63,24 @@ app.use(express.static(__dirname + '/fa'));
 app.use(session({secret: 'key',cookie:{maxAge:600000},saveUninitialized: true,resave: true}));
 
 
-app.use((req,res,next)=>{
-	console.log(req.session)
-	next()
-})
+// app.use((req,res,next)=>{
+// 	//console.log(req.session)
+// 	next()
+// })
 
 app.get('/',function(req,resp){
 	
 	resp.sendFile(path.resolve('index.html'));
 	return;
-	//console.log(req);
-	//console.log(resp);
+	////console.log(req);
+	////console.log(resp);
 });
 
 app.get('/student',function(req,resp){
 	let user_role	=	req.session.role;
 
 	let response	=	user_role	==	"student"
-	console.log(response);
+	//console.log(response);
 	if(response){
 		resp.sendFile('student.html',{root: path.join(__dirname, '')});
 	}
@@ -92,7 +92,7 @@ app.get('/student',function(req,resp){
 
 // 		resp.sendFile('admin.html',{root: path.join(__dirname, '')});
 // 	}
-// 	console.log("illegal entry");
+// 	//console.log("illegal entry");
 	
 // 	resp.redirect('/')
 // })
@@ -105,7 +105,7 @@ app.get('/admin',(req,res)=>{
 	let user_role	=	req.session.role;
 
 	let response	=	user_role	==	"admin"
-	console.log(response);
+	//console.log(response);
 	if(response){
 		res.sendFile('admin.html',{root: path.join(__dirname, '')});
 	}
@@ -117,7 +117,7 @@ app.get('/handyman',(req,res)=>{
 	let user_role	=	req.session.role;
 
 	let response	=	user_role	==	"handyman"
-	console.log(response);
+	//console.log(response);
 	if(response){
 		res.sendFile('handyman.html',{root: path.join(__dirname, '')});
 	}
@@ -127,18 +127,18 @@ app.get('/handyman',(req,res)=>{
 
 app.get('/getData',function(req,resp){
 	var sess=req.query;
-	//console.log(sess);
+	////console.log(sess);
 	if(sess.email && sess.type=='S')
 		{
 		
 		var sql = "SELECT * FROM student_info WHERE email='"+sess.email+"'";
 		con.query(sql, function (err, result) {
 		    if (err){ 
-		    	console.log(err);
+		    	//console.log(err);
 		    	resp.end("false");
 		    	return;
 		    		}
-		    //console.log(result.length);
+		    ////console.log(result.length);
 		    if(result.length==0){
 		    	resp.end("false");
 		    	return;
@@ -153,11 +153,11 @@ app.get('/getData',function(req,resp){
 		var sql = "SELECT * FROM handyman_info WHERE email='"+sess.email+"'";
 		con.query(sql, function (err, result) {
 		    if (err){ 
-		    	console.log(err);
+		    	//console.log(err);
 		    	resp.end("false");
 		    	return;
 		    		}
-		    //console.log(result.length);
+		    ////console.log(result.length);
 		    if(result.length==0){
 		    	resp.end("false");
 		    	return;
@@ -172,11 +172,11 @@ app.get('/getData',function(req,resp){
 		var sql = "SELECT * FROM admin_info WHERE email='"+sess.email+"'";
 		con.query(sql, function (err, result) {
 		    if (err){ 
-		    	console.log(err);
+		    	//console.log(err);
 		    	resp.end("false");
 		    	return;
 		    		}
-		    //console.log(result.length);
+		    ////console.log(result.length);
 		    if(result.length==0){
 		    	resp.end("false");
 		    	return;
@@ -190,14 +190,14 @@ app.get('/getData',function(req,resp){
 			resp.end("false");
 		}
 	
-	//console.log(req);
-	//console.log(resp);
+	////console.log(req);
+	////console.log(resp);
 })
 
-app.get('/get/session/details',(req,resp)=>{
-	console.log(req)
-	resp.end(JSON.stringify(req.session.email))
-})
+// app.get('/get/session/details',(req,resp)=>{
+// 	//console.log(req)
+// 	resp.end(JSON.stringify(req.session.email))
+// })
 
 app.post('/signup',function(req,resp){
 	var values=req.body;
@@ -205,11 +205,11 @@ app.post('/signup',function(req,resp){
   	//resp.end(next);
   	con.query(sql, function (err, result) {
 	    if (err){ 
-	    	console.log(err);
+	    	//console.log(err);
 	    	resp.end("false");
 	    	return;
 	    }
-	    console.log("1 record inserted");
+	    //console.log("1 record inserted");
 	    resp.end("true");
 	    return;
   	});
@@ -219,17 +219,17 @@ app.post('/signup',function(req,resp){
 app.get('/signin',function(req,resp){
 	var values=req.query;
 	var sess=values;
-	//console.log(sess.type);
+	////console.log(sess.type);
 	if(sess.type=="S"){
 		var sql = "SELECT * FROM student_info WHERE email='"+values.email+"' and password='"+values.password+"'";
 	  	
 		con.query(sql, function (err, result) {
 		    if (err){ 
-		    	console.log(err);
+		    	//console.log(err);
 		    	resp.end("false");
 		    	return;
 		    }
-		    //console.log(result.length);
+		    ////console.log(result.length);
 		    if(result.length==0){
 		    	resp.end("false");
 		    	return;
@@ -244,11 +244,11 @@ app.get('/signin',function(req,resp){
 		var sql = "SELECT * FROM handyman_info WHERE email='"+values.email+"' and password='"+values.password+"'";
 	  	con.query(sql, function (err, result) {
 		    if (err){ 
-		    	console.log(err);
+		    	//console.log(err);
 		    	resp.end("false");
 		    	return;
 		    }
-		    //console.log(result.length);
+		    ////console.log(result.length);
 		    if(result.length==0){
 		    	resp.end("false");
 		    	return;
@@ -262,11 +262,11 @@ app.get('/signin',function(req,resp){
 		var sql = "SELECT * FROM admin_info WHERE email='"+values.email+"' and password='"+values.password+"'";
 		con.query(sql, function (err, result) {
 			if (err){ 
-				console.log(err);
+				//console.log(err);
 		    	resp.end("false");
 		    	return;
 		    }
-		    //console.log(result.length);
+		    ////console.log(result.length);
 		    if(result.length==0){
 				req.session.level	=	result.level
 		    	resp.end("false");
@@ -284,10 +284,10 @@ app.get('/signin',function(req,resp){
 })
 
 app.get('/logout',function(req,resp){
-	console.log(req.session)
+	//console.log(req.session)
 	req.session.destroy(function(err){  
         if(err){  
-            console.log(err);  
+            //console.log(err);  
         }  
         else  
         {  
@@ -298,10 +298,10 @@ app.get('/logout',function(req,resp){
 
 app.post('/userLodge',function(req,res){
 	var value=req.body;
-	console.log(value);
+	//console.log(value);
 	var cost=0;
 	var otp=parseInt((new Date()/1000)*Math.random())%10000+42;
-    //console.log(x);
+    ////console.log(x);
 	if(value.type=="personnel")
 		cost=20;
 	var sql="Insert into complaint_info(student_id,subject,description,type,catagory,time_slot,date,cost,otp,descriptionFull)" +
@@ -309,11 +309,11 @@ app.post('/userLodge',function(req,res){
 	//"values('1','abc','desc','hostel','carpenter','9-10')";
 	con.query(sql,function(err,result){
 		 if (err){ 
-	    	console.log(err);
+	    	//console.log(err);
 	    	res.end("false");
 	    	return;
 	    }
-		 console.log("1 complaint registered");
+		 //console.log("1 complaint registered");
 		 res.end("true");
 		 return;
 	})
@@ -326,7 +326,7 @@ app.get('/complaintHandymanType',function(req,res){
 	con.query(sql,function(err,result){
 		if(err)
 		{
-			console.log(err);
+			//console.log(err);
 			res.end("false");
 			return;
 		}
@@ -342,7 +342,7 @@ app.get('/userComplaintHistory',function(req,res){
 	var value=req.query;
 	var s_id=value.student_id;
 	var status=value.type;
-	//console.log(value);
+	////console.log(value);
 	if(status==-1){
 		status='(0,1,2,3)';
 	}
@@ -353,7 +353,7 @@ app.get('/userComplaintHistory',function(req,res){
 	con.query(sql,function(err,result){
 		if(err)
 		{
-			console.log(err);
+			//console.log(err);
 			res.end("false");
 			return;
 		}
@@ -363,12 +363,12 @@ app.get('/userComplaintHistory',function(req,res){
 		 	var finalResult=result;
 		 	con.query(sql,function(err,result){
 		 		if(err!=null){
-		 			console.log(err);
+		 			//console.log(err);
 		 			return;
 		 		}
-		 		// console.log(finalResult);
-		 		// console.log("--------------------------");
-		 		// console.log(result);
+		 		// //console.log(finalResult);
+		 		// //console.log("--------------------------");
+		 		// //console.log(result);
 		 		res.send(JSON.stringify(result.concat(finalResult)));
 		 		return;
 		 });
@@ -380,7 +380,7 @@ app.get('/userComplaintHistory',function(req,res){
 
 app.get('/userFeedback',function(req,res){
 	var value=req.query;
-	//console.log(value);
+	////console.log(value);
 	var review=value.review;
 	var rating=value.rating;
 	var id=value.id;
@@ -388,7 +388,7 @@ app.get('/userFeedback',function(req,res){
 	con.query(sql,function(err,result){
 		if(err)
 		{
-			console.log(err);
+			//console.log(err);
 			res.end("false");
 			return;
 		}
@@ -402,13 +402,13 @@ app.get('/userFeedback',function(req,res){
 
 app.get('/userComplaintAnalytics',function(req,res){
 	var value=req.query;
-	//console.log(value);
+	////console.log(value);
 	var sql="select count(*) as total from complaint_info where student_id="+value.student_id+" union select count(*) as solved from complaint_info where student_id="+value.student_id+" and status>=2";
 
 	con.query(sql,function(err,result){
 		if(err)
 		{
-			console.log(err);
+			//console.log(err);
 			res.end("false");
 			return;
 		}
@@ -422,7 +422,7 @@ app.get('/userComplaintAnalytics',function(req,res){
 
 app.get('/generateWork',function(req,res){
 	var values=req.query;
-	console.log("values",values);
+	//console.log("values",values);
 	var ids="("
 	for(i in values){
 		if(i!="level")
@@ -431,8 +431,8 @@ app.get('/generateWork',function(req,res){
 
 	ids+="-1)";
 	let admin_level	=	req.query.level[3];
-	console.log(admin_level);
-	console.log(ids);
+	//console.log(admin_level);
+	//console.log(ids);
 	adminJS.assign(ids,res,con,admin_level);
 	res.end("true")
 });
@@ -479,12 +479,12 @@ app.get('/adminGetIndexPageData',function(req,res){
 })
 
 app.get('/handyManGetWork',function(req,res){
-	//console.log(req.query);
+	////console.log(req.query);
 	handyManJS.getWork(req,res,con);
 });
 
 app.get('/handyManComplaintSolved',function(req,res){
-	//console.log(req.query);
+	////console.log(req.query);
 	handyManJS.complaintSolved(req,res,con);
 });
 
@@ -505,6 +505,7 @@ app.get('/escalateAdmin',function(res,req){
 });
 
 
-app.listen(9000,function(){
-	console.log('listening');
+app.listen(
+       process.env.PORT||9000,function(){
+			//console.log('listening');
 });
