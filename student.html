@@ -27,29 +27,37 @@
 		a[name='dashBoardButtons']:hover {
 			background-color: red;
 		}
+		.w3-container .w3-flat-belize-hole{
+			/* background-color: rgb(25, 141, 60); */
+			background-color: #2bd781;
+		}
+		.w3-container .w3-flat-belize-hole{
+			border-radius: 20px;
+		}
+		
 	</style>
 </head>
 
 <body>
-	<div class="w3-sidebar w3-bar-block w3-white w3-center w3-animate-left" style="width:20%; background:linear-gradient(to right, #005aa7, #ecf0f1)">
+	<div class="w3-sidebar w3-bar-block w3-white w3-center w3-animate-left" style="width:20%; background-color:black">
 		<h3 class="w3-bar-item w3-center fontSpecialElite w3-border-bottom w3-border-grey" style="margin-bottom:0;">
 			DashBoard</h3>
-		<a href="#lodgeDiv" class="w3-bar-item w3-button w3-padding-small w3-hover-blue" id="lodgeButton" style="background:linear-gradient(to right, #005aa7, #ecf0f1);"
+		<a href="#lodgeDiv" class="w3-bar-item w3-button w3-padding-small w3-hover-blue" id="lodgeButton" style="background-color:rgb(242, 205, 141)"
 			name="dashBoardButtons">
 			<h1><i class="fa fa-wrench" aria-hidden="true"></i></h1>
-			<h6 class="fontAudiowide">Lodge</h6>
+			<h6 class="fontAudiowide">Raise Complaint</h6>
 		</a>
-		<a href="#historyDiv" class="w3-bar-item w3-button w3-padding-small w3-hover-blue" id="historyButton" style="background:linear-gradient(to right, #005aa7, #ecf0f1);"
+		<a href="#historyDiv" class="w3-bar-item w3-button w3-padding-small w3-hover-blue" id="historyButton" style="background-color:rgb(242, 205, 141)"
 			name="dashBoardButtons">
 			<h1><i class="fa fa-history" aria-hidden="true"></i></h1>
-			<h6 class="fontAudiowide">History</h6>
+			<h6 class="fontAudiowide">History of Compaints</h6>
 		</a>
-		<a href="#infoDiv" class="w3-bar-item w3-button w3-hover-blue w3-border-white" id="infoButton" style="background:linear-gradient(to right, #005aa7, #ecf0f1);"
+		<a href="#infoDiv" class="w3-bar-item w3-button w3-hover-blue w3-border-white" id="infoButton" style="background-color:rgb(242, 205, 141)"
 			name="dashBoardButtons">
 			<h1><i class="fa fa-info" aria-hidden="true"></i></h1>
 			<h6 class="fontAudiowide">Info</h6>
 		</a>
-		<a class="w3-bar-item w3-button w3-padding-small w3-hover-blue" id="logoutButton" name="dashBoardButtons"style="background:linear-gradient(to right, #005aa7, #ecf0f1);> 
+		<a class="w3-bar-item w3-button w3-padding-small w3-hover-blue" id="logoutButton" name="dashBoardButtons"style="background-color:rgb(242, 205, 141)" name="dashBoardButtons">
 			<h1><i class="fa fa-sign-out" aria-hidden="true"></i></h1>
 			<h6 class="fontAudiowide">Log Out</h6>
 		</a>
@@ -61,7 +69,7 @@
 		name="commonDivName">
 		<div class="w3-display-middle" style="width:70%;">
 			<div class="w3-white">
-				<header class="w3-container w3-flat-belize-hole">
+				<header class="w3-container w3-flat-belize-hole" >
 					<h2 class="fontSourceSansPro w3-text-white">Lodge a complaint</h2>
 				</header>
 				<div class="w3-container fontSourceSansPro">
@@ -145,7 +153,7 @@
 				<h2 class="fontSourceSansPro w3-text-white">History
 					<span>
 						<h2 style="display:inline;">
-							<select class="fontSourceSansPro" style="background-color: #2980BB;color:white;border:30px"
+							<select class="fontSourceSansPro" style="background-color: #2bd781;color:white;border:30px"
 								name="type" id="historySelectType"
 								onchange="document.getElementById('historyButton').click();">
 								<option value="-1">All</option>
@@ -166,11 +174,11 @@
 
 	<!-- ////////////////////////////// Info ////////////////////////-->
 
-	<div class="w3-flat-clouds w3-display-container" style="margin-left:20%;height:100vh;" id="infoDiv"
+	<div class="w3-flat-clouds w3-display-container" style="margin-left:20%;height:100vh;background-color: #2bd781;" id="infoDiv"
 		name="commonDivName">
 		<div class="w3-display-middle" style="width:70%;">
-			<div class="w3-white ">
-				<header class="w3-container w3-flat-belize-hole">
+			<div class="w3-white">
+				<header class="w3-container w3-flat-belize-hole" style="background-color: rgb(42, 136, 153) !important;">
 					<h2 class="fontSourceSansPro w3-text-white">Welcome <span id="userName">Anubhav</span>
 						<span id="changePass">
 							<h6 style="display:inline;"><button
@@ -402,7 +410,7 @@
 
 	$(document).ready(function () {
 		$('#infoButton').trigger('click');
-		window.history.pushState("", "", '/student');
+		// window.history.pushState("", "", '/student');
 	});
 
 	$("#infoButton").click(function () {
