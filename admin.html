@@ -39,34 +39,39 @@
 		[name=historyHandymanInfo] .fa {
 			color: #003366;
 		}
+		.w3-flat-belize-hole{
+			background-color:rgb(242, 205, 141) !important;
+			border-radius:12px ;
+			color: black !important;
+		}
 	</style>
 </head>
 
 <body>
-	<div class="w3-sidebar w3-bar-block w3-white w3-center w3-animate-left" style="width:20%; background:linear-gradient(to right, #005aa7, #ecf0f1)">
+	<div class="w3-sidebar w3-bar-block w3-white w3-center w3-animate-left" style="width:20%; background-color:rgb(242, 205, 141);">
 		<h3 class="w3-bar-item w3-center fontSpecialElite w3-border-bottom w3-border-grey" style="margin-bottom:0;">
 			DashBoard</h3>
-		<a href="#assignDiv" class="w3-bar-item w3-button w3-padding-small w3-hover-blue" id="assignButton"
-			name="dashBoardButtons" style="background:linear-gradient(to right, #005aa7, #ecf0f1)">
+		<a href="#assignDiv" class="w3-bar-item w3-button w3-padding-small w3-hover-white" id="assignButton"
+			name="dashBoardButtons" style="background-color:rgb(242, 205, 141);">
 			<h1><i class="fa fa-briefcase" aria-hidden="true"></i></h1>
 			<h6 class="fontAudiowide">Assign</h6>
 		</a>
-		<a href="#watchDiv" class="w3-bar-item w3-button w3-padding-small w3-hover-blue" id="watchButton"
-			name="dashBoardButtons"style="background:linear-gradient(to right, #005aa7, #ecf0f1)">
+		<a href="#watchDiv" class="w3-bar-item w3-button w3-padding-small w3-hover-white" id="watchButton"
+			name="dashBoardButtons"style="background-color:rgb(242, 205, 141);">
 			<h1><i class="fa fa-eye" aria-hidden="true"></i></h1>
 			<h6 class="fontAudiowide">Watch</h6>
 		</a>
-		<a href="#historyDiv" class="w3-bar-item w3-button w3-padding-small w3-hover-blue" id="historyButton"
-			name="dashBoardButtons"style="background:linear-gradient(to right, #005aa7, #ecf0f1)">
+		<a href="#historyDiv" class="w3-bar-item w3-button w3-padding-small w3-hover-white" id="historyButton"
+			name="dashBoardButtons"style="background-color:rgb(242, 205, 141);">
 			<h1><i class="fa fa-history" aria-hidden="true"></i></h1>
 			<h6 class="fontAudiowide">History</h6>
 		</a>
-		<a href="#infoDiv" class="w3-bar-item w3-button w3-hover-blue w3-border-white" id="infoButton"
-			name="dashBoardButtons"style="background:linear-gradient(to right, #005aa7, #ecf0f1)">
+		<a href="#infoDiv" class="w3-bar-item w3-button w3-hover-white w3-border-white" id="infoButton"
+			name="dashBoardButtons"style="background-color:rgb(242, 205, 141);">
 			<h1><i class="fa fa-info" aria-hidden="true"></i></h1>
 			<h6 class="fontAudiowide">Info</h6>
 		</a>
-		<a class="w3-bar-item w3-button w3-padding-small w3-hover-blue" id="logoutButton" name="dashBoardButtons"style="background:linear-gradient(to right, #005aa7, #ecf0f1)">
+		<a class="w3-bar-item w3-button w3-padding-small w3-hover-white" id="logoutButton" name="dashBoardButtons"style="background-color:rgb(242, 205, 141);">
 			<h1><i class="fa fa-sign-out" aria-hidden="true"></i></h1>
 			<h6 class="fontAudiowide">Log Out</h6>
 		</a>
@@ -218,7 +223,7 @@
 				<div class="w3-third">
 					<input class="w3-check" id="historyComplaintCheck" type="checkbox" checked="checked">
 					<label>Complaint Info</label>
-					<button class="w3-btn w3-right w3-border-white w3-border w3-hover-blue"
+					<button class="w3-btn w3-right w3-border-white w3-border w3-hover-white"
 						onclick="$('#historyButton').trigger('click');"><i class="fa fa-arrow-right"
 							aria-hidden="true"></i></button>
 				</div>
@@ -281,7 +286,7 @@
 					<h2 class="fontSourceSansPro w3-text-white">Welcome <span id="userName"></span>
 						<span id="changePass">
 							<h6 style="display:inline;"><button
-									class="w3-btn w3-right w3-hover-blue w3-border-white w3-border" id="changeInfo"
+									class="w3-btn w3-right w3-hover-white w3-border-white w3-border" id="changeInfo"
 									onclick="$('#changeInfoModal').css('display','block');">Change Info</button></h6>
 						</span></h2>
 				</header>
@@ -334,7 +339,7 @@
 		<div class="w3-modal-content">
 			<header class="w3-flat-belize-hole w3-container">
 				<span onclick="closeChangeModal('changeInfoModal');"
-					class="w3-button w3-display-topright w3-hover-blue">&times;</span>
+					class="w3-button w3-display-topright w3-hover-white">&times;</span>
 				<h2 class="fontSourceSansPro w3-text-white">Change Info</h2>
 			</header>
 			<div class="w3-container w3-padding-16 w3-center">
@@ -345,7 +350,7 @@
 						placeholder="New Password" style="margin:5px;">
 					<input class="w3-input w3-border fontSourceSansPro" id="new_re_pass" type="password" val=""
 						placeholder="Re-Enter New Password" style="margin:5px;">
-					<input class="w3-button w3-hover-blue w3-flat-belize-hole" id="changeInfoButton" type="button"
+					<input class="w3-button w3-hover-white w3-flat-belize-hole" id="changeInfoButton" type="button"
 						value="Change Password" style="margin:5px;">
 				</div>
 			</div>
@@ -354,7 +359,7 @@
 				<div class=" w3-container" style="margin:5px auto;width:50%;">
 					<input class="w3-input w3-border fontSourceSansPro" id="new_phone_no" type="number" val=""
 						placeholder="Phone_no" style="margin:5px;">
-					<input class="w3-button w3-hover-blue w3-flat-belize-hole" id="changePhoneButton" type="button"
+					<input class="w3-button w3-hover-white w3-flat-belize-hole" id="changePhoneButton" type="button"
 						value="Update Phone no" style="margin:5px;">
 				</div>
 			</div>
@@ -407,7 +412,7 @@
 					createAssignForm(data[i]);
 				$('#assignForm').append(
 					'<div class="w3-center w3-margin-top">' +
-					'<input class="w3-button w3-flat-belize-hole w3-hover-blue" type="submit" id="submitAssign" value="Generate">' +
+					'<input class="w3-button w3-flat-belize-hole w3-hover-white" type="submit" id="submitAssign" value="Generate">' +
 					'</div>'
 				);
 				$('#assignForm').append(
@@ -881,7 +886,7 @@
 			'<div class="w3-col m1 s1 w3-right">' +
 			'<input class="w3-check" type="checkbox" name="handyman_' + data.handyman_id + '">' +
 			'</div>' +
-			'<input type="hidden" name="level"> value='+admin_level+'</input>'+
+			'<input type="hidden" name="level" value='+admin_level+'></input>'+
 			'</div>'
 		);
 	}
@@ -904,7 +909,7 @@
 			'<h5>' + data.rating + '<span class="fa fa-star"></span></h5>' +
 			'</div>' +
 			'<div class="w3-right">' +
-			'<button class="w3-button w3-flat-belize-hole w3-hover-blue" type="button" style="width:100%;" id="watch_' +
+			'<button class="w3-button w3-flat-belize-hole w3-hover-white" type="button" style="width:100%;" id="watch_' +
 			data.handyman_id + '"><i class="fa fa-caret-down" aria-hidden="true"></i></button>' +
 			'</div>' +
 			'</div>' +
