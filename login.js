@@ -422,11 +422,19 @@ app.get('/userComplaintAnalytics',function(req,res){
 
 app.get('/generateWork',function(req,res){
 	var values=req.query;
+	console.log("values",values);
 	var ids="("
-	for(i in values)
-		ids+=i.split("_")[1]+",";
+	for(i in values){
+		if(i!="level")
+			ids+=i.split("_")[1]+",";
+	}
+
 	ids+="-1)";
-	adminJS.assign(ids,res,con);
+	let admin_level	=	req.query.level[3];
+	console.log(admin_level);
+	console.log(ids);
+	adminJS.assign(ids,res,con,admin_level);
+	res.end("true")
 });
 
 app.get('/changeStudentPass',function(res,req){

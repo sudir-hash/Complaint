@@ -98,7 +98,7 @@
 				<h2 class="fontSourceSansPro w3-text-white">History</h2>
 			</header>
 			<div class="w3-container w3-flat-belize-hole w3-row" style="margin:10px auto;">
-				<div class="w3-third">
+				<!-- <div class="w3-third">
 					<div class="w3-col m5" style="margin:10px auto; ">
 						<label>Handyman Id:</label>
 					</div>
@@ -107,7 +107,7 @@
 							class="w3-input w3-flat-belize-hole w3-text-white w3-border w3-border-white"
 							style="margin: 4px auto;" id="historyHandymanId" placeholder="Input Here">
 					</div>
-				</div>
+				</div> -->
 				<div class="w3-twothird">
 					<div class="w3-col m3" style="margin:10px auto; ">
 						<label class="">Student: </label>
@@ -390,6 +390,9 @@
 
 
 	$('#assignButton').click(function () {
+
+		cids=[]
+		let admin_level	=	$("#level").val()
 		$.ajax({
 			type: 'get',
 			url: '/adminGetAllHandyManInfo',
@@ -407,11 +410,15 @@
 					'<input class="w3-button w3-flat-belize-hole w3-hover-blue" type="submit" id="submitAssign" value="Generate">' +
 					'</div>'
 				);
+				$('#assignForm').append(
+					'<input type="hidden" name="level" value='+admin_level+'>'
+				);
 			}
 		});
 	});
 
 	$('#watchButton').click(function () {
+		cids	=	[]
 		var arr = ["Electrician", "Carpenter", "Others"];
 		$.ajax({
 			type: 'get',
@@ -554,6 +561,7 @@
 
 
 	$("#infoButton").click(function () {
+		cids	=	[]
 		$.ajax({
 			type: 'get',
 			url: '/getData',
@@ -688,13 +696,13 @@
 		}
 		let admin_level	=	$("#level").val()
 		c.priority	=	Number(c.priority)
+		// console.log("Priority",c.priority);
 		if(cids.indexOf(c.complaint_id)!=-1 ){
-			// if() 
 				return;
 		}
 		if(admin_level!=c.priority)
 			return
-		console.log(admin_level,c.priority);
+		// console.log(admin_level,c.priority);
 		cids.push(c.complaint_id);
 		
 		$('#historyDivChild').append(
@@ -814,7 +822,7 @@
 
 			'</div>');
 			$('#panel_' + c.complaint_id).append(
-				`<button class="escalate" onclick="escalate(${c.complaint_id},${c.priority})">escalate</button>`
+				`<button class="escalate" style="margin-top:2em;background-color:#0091ff;font-weight: 400;padding:10px;font-size: 20px; color:white ; border-radius:10px;" onclick="escalate(${c.complaint_id},${c.priority})">escalate</button>`
 			)
 		if (c.status == "Solved") {
 			$('#panel_' + c.complaint_id).addClass('w3-border-blue w3-rightbar');
@@ -853,6 +861,7 @@
 	}
 
 	function createAssignForm(data) {
+		let admin_level	=	$("#level").val()
 		$("#assignForm").append(
 			'<div class="w3-row w3-margin-top" style="margin:0 auto;">' +
 			'<div class="w3-col m1 w3-container s2 w3-center">' +
@@ -872,6 +881,7 @@
 			'<div class="w3-col m1 s1 w3-right">' +
 			'<input class="w3-check" type="checkbox" name="handyman_' + data.handyman_id + '">' +
 			'</div>' +
+			'<input type="hidden" name="level"> value='+admin_level+'</input>'+
 			'</div>'
 		);
 	}

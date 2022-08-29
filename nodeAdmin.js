@@ -145,9 +145,13 @@ function assignWorkHelper(Data,slot,result,status,res,con){
 	return sequence;
 }
 
-function assignWork(electricianData,carpenterData,con,res){
-	
-	var sql="select complaint_id,time_slot,catagory,status from complaint_info where status<2";
+function assignWork(electricianData,carpenterData,con,res,admin_level){
+	console.log("e",admin_level);
+	if(typeof(admin_level)=="undefined"){
+		res.end("false")
+	}
+	var sql="select complaint_id,time_slot,catagory,status,priority from complaint_info c where status<2 and c.priority = "+Number(admin_level);
+	console.log(sql);
 	con.query(sql,function(err,result){
 		if(err){
 			console.log(err);
@@ -300,7 +304,11 @@ function adminGetIndexPageData(req,res){
 }
 
 module.exports={
-	assign: function(req,res,con){
+	assign: function(req,res,con,admin_level){
+		// console.log("admn",admin_level);
+		if(typeof(admin_level)=="undefined"){
+			res.end("false")
+		}
 		//return "yes";
 		var ids=req;
 		var carpenterData=[];
@@ -335,7 +343,7 @@ module.exports={
 							for(i in result)
 								carpenterData.push(result[i]);
 							sendData.carpenter=carpenterData;
-							assignWork(electricianData,carpenterData,con,res);
+							assignWork(electricianData,carpenterData,con,res,admin_level);
 						}
 					});
 				}
