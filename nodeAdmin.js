@@ -1,7 +1,6 @@
 var fs=require('fs');
 
 
-
 function getAllEquipment(req,res,con){
 	var sql="select distinct(equipment) from master_data";
 	con.query(sql,function(err,result){

@@ -2,9 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const app = express();
-
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
+const md5	=	require('md5')
 
 //local imports
 
@@ -198,12 +196,15 @@ app.get('/getData', function (req, resp) {
 
 app.post('/signup', function (req, resp) {
 	var values = req.body;
-	var sql = "INSERT INTO student_info (name,email, password, roll_no, phone_no, room_no, gender) VALUES ('" + values.name + "','" + values.email + "','MD5("+'"'+values.password+'"'+")','" + values.rollno + "','" + values.phoneno + "','" + values.roomno + "','" + values.gender + "')";
+	values.password	=	md5(values.password)
+	if(values.password	==	"undefined")
+		resp.end("false")
+	var sql = "INSERT INTO student_info (name,email, password, roll_no, phone_no, room_no, gender) VALUES ('" + values.name + "','" + values.email + "','"+values.password+"','" + values.rollno + "','" + values.phoneno + "','" + values.roomno + "','" + values.gender + "')";
 	console.log(sql);
 
 	// resp.end("false");
 	//resp.end(next);
-	con.query(sql, [values.password], function (err, result) {
+	con.query(sql,  function (err, result) {
 		if (err) {
 			//console.log(err);
 			resp.end("false");
@@ -220,9 +221,10 @@ app.get('/signin', function (req, resp) {
 	var values = req.query;
 	var sess = values;
 	////console.log(sess.type);
-
+	values.password	=	md5(values.password)
 	if (sess.type == "S") {
-		var sql = "SELECT * FROM student_info WHERE email='" + values.email + "' and password='MD5("+'"'+values.password+'"'+")'";
+
+		var sql = "SELECT * FROM student_info WHERE email='" + values.email + "' and password='"+values.password+"";
 
 		con.query(sql, function (err, result) {
 			if (err) {
