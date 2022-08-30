@@ -194,97 +194,90 @@ app.get('/getData', function (req, resp) {
 // 	resp.end(JSON.stringify(req.session.email))
 // })
 
-app.post('/signup', function (req, resp) {
-	var values = req.body;
-	// values.password	=	md5(values.password)
-	//if(values.password	==	"undefined")
-	//	resp.end("false")
-	var sql = "INSERT INTO student_info (name,email, password, roll_no, phone_no, room_no, gender) VALUES ('" + values.name + "','" + values.email + "','"+values.password+"','" + values.rollno + "','" + values.phoneno + "','" + values.roomno + "','" + values.gender + "')";
-	console.log(sql);
-
-	// resp.end("false");
-	//resp.end(next);
-	con.query(sql,  function (err, result) {
-		if (err) {
-			//console.log(err);
-			resp.end("false");
-			return;
-		}
-		//console.log("1 record inserted");
-		resp.end("true");
-		return;
-	});
-	//resp.end("Error Check feilds");
+app.post('/signup',function(req,resp){
+	var values=req.body;
+	var sql = "INSERT INTO student_info (name,email, password, roll_no, phone_no, room_no, gender) VALUES ('"+values.name+"','"+values.email+"','"+values.password+"','"+values.rollno+"','"+values.phoneno+"','"+values.roomno+"','"+values.gender+"')";
+  	//resp.end(next);
+  	con.query(sql, function (err, result) {
+	    if (err){ 
+	    	//console.log(err);
+	    	resp.end("false");
+	    	return;
+	    }
+	    //console.log("1 record inserted");
+	    resp.end("true");
+	    return;
+  	});
+  	//resp.end("Error Check feilds");
 })
 
-app.get('/signin', function (req, resp) {
-	var values = req.query;
-	var sess = values;
+app.get('/signin',function(req,resp){
+	var values=req.query;
+	var sess=values;
 	////console.log(sess.type);
-	// values.password	=	md5(values.password)
-	if (sess.type == "S") {
-
-		var sql = "SELECT * FROM student_info WHERE email='" + values.email + "' and password='"+values.password+"";
-
+	if(sess.type=="S"){
+		var sql = "SELECT * FROM student_info WHERE email='"+values.email+"' and password='"+values.password+"'";
+	  	
 		con.query(sql, function (err, result) {
-			if (err) {
-				//console.log(err);
-				resp.end("false");
-				return;
-			}
-			////console.log(result.length);
-			if (result.length == 0) {
-				resp.end("false");
-				return;
-			}
-			req.session.role = "student";
-			resp.end(JSON.stringify(result));
+		    if (err){ 
+		    	//console.log(err);
+		    	resp.end("false");
+		    	return;
+		    }
+		    ////console.log(result.length);
+		    if(result.length==0){
+		    	resp.end("false");
+		    	return;
+		    }
+			req.session.role	=	"student";
+		    resp.end(JSON.stringify(result));
 			return;
-		});
-
-	}
-	else if (sess.type == "H") {
-		var sql = "SELECT * FROM handyman_info WHERE email='" + values.email + "' and password='" + values.password + "'";
+	  	});
+		
+  	}
+  	else if(sess.type=="H"){
+		var sql = "SELECT * FROM handyman_info WHERE email='"+values.email+"' and password='"+values.password+"'";
+	  	con.query(sql, function (err, result) {
+		    if (err){ 
+		    	//console.log(err);
+		    	resp.end("false");
+		    	return;
+		    }
+		    ////console.log(result.length);
+		    if(result.length==0){
+		    	resp.end("false");
+		    	return;
+		    }
+			req.session.role	=	"handyman";
+		    resp.end(JSON.stringify(result));
+			return;
+	  	});
+  	}
+  	else if(sess.type=="A"){
+		var sql = "SELECT * FROM admin_info WHERE email='"+values.email+"' and password='"+values.password+"'";
 		con.query(sql, function (err, result) {
-			if (err) {
+			if (err){ 
 				//console.log(err);
-				resp.end("false");
-				return;
-			}
-			////console.log(result.length);
-			if (result.length == 0) {
-				resp.end("false");
-				return;
-			}
-			req.session.role = "handyman";
-			resp.end(JSON.stringify(result));
-			return;
-		});
-	}
-	else if (sess.type == "A") {
-		var sql = "SELECT * FROM admin_info WHERE email='" + values.email + "' and password='" + values.password + "'";
-		con.query(sql, function (err, result) {
-			if (err) {
-				//console.log(err);
-				resp.end("false");
-				return;
-			}
-			////console.log(result.length);
-			if (result.length == 0) {
-				req.session.level = result.level
-				resp.end("false");
-				return;
-			}
-			req.session.role = "admin";
-			resp.end(JSON.stringify(result));
-			return;
-		});
-	}
-	else {
-		resp.end("false");
+		    	resp.end("false");
+		    	return;
+		    }
+		    ////console.log(result.length);
+		    if(result.length==0){
+				req.session.level	=	result.level
+		    	resp.end("false");
+		    	return;
+		    }
+			req.session.role	=	"admin";
+		    resp.end(JSON.stringify(result));
+		    return;
+	  	});
+  	}
+  	else{
+  		resp.end("false");
 		return;
-	}
+  	}
 })
+
 
 app.get('/logout', function (req, resp) {
 	//console.log(req.session)
