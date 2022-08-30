@@ -41,7 +41,7 @@ function getAllHistory(req,res,con){
 	var type=values.type.trim();
 	var status=values.status.trim();
 	var rating=values.rating.trim();
-	var sql="select * from complaint_info c,handyman_info h,student_info s where c.priority>0 ";
+	var sql="select * from complaint_info c,handyman_info h,student_info s where c.priority>0  and  c.student_id=s.student_id ";
 	// if(handyman_id!=""){
 	// 	sql+="and c.handyman_id="+handyman_id+" ";
 	// }
@@ -103,8 +103,7 @@ function getAllHistory(req,res,con){
 		}
 		let res_obj	=	[]
 		
-		// //console.log(result)
-		
+		console.log(result)
 		res.end(JSON.stringify(result));
 	})
 };

@@ -533,9 +533,9 @@
 			},
 			success: function (data) {
 				data = JSON.parse(data);
-				//console.log(data);
+				console.log(data,data.length);
 				$("#historyDivChild").html("");
-				for (var i = 0; i < data.length; ++i) {
+				for (var i = 0; i < data.length; i++) {
 					createHistory(data[i]);
 				}
 				if ($('#historyHandymanCheck').prop('checked') == false) {
@@ -687,11 +687,12 @@
 	})
 
 	function createHistory(data) {
+		// console.log("created history");
 		var c = data.c;
 		var h = data.h;
 		var s = data.s;
 		if (c.status == 0) {
-			c.status = "Lodged";
+			c.status = "Filed";
 		}
 		if (c.status == 1) {
 			c.status = "In progress";
@@ -710,6 +711,7 @@
 		}
 		if(admin_level!=c.priority)
 			return
+	
 		// //console.log(admin_level,c.priority);
 		cids.push(c.complaint_id);
 		
@@ -726,7 +728,7 @@
 			c.date.split("T")[0] + '</span></h6>' +
 			'</div>' +
 			'<div class="w3-third fontSourceSansPro">' +
-			'<h5><span class="fa fa-clock-o w3-col m1 s3 w3-hide-small w3-hide-medium"></span></h5><h6><h6><span><b>Time: &nbsp;</b></span><span >' +
+			'<h5><span class="fa fa-clock-o w3-col m1 s3 w3-hide-small w3-hide-medium"></span></h5><h6><h6><span><b>Registered Time: &nbsp;</b></span><span >' +
 			c.date.split("T")[1].split(".")[0] + '</span></h6>' +
 			'</div>' +
 
@@ -822,8 +824,8 @@
 			h.Catagory + '</span></h6>' +
 			'</div>' +
 			'<div class="w3-third fontSourceSansPro">' +
-			'<h5><span class="fa fa-star w3-col m1 s3 w3-hide-small w3-hide-medium"> </span></h5><h6><span><b> Rating: </b></span><span ><span class="w3-rest"> ' +
-			c.rating + '</span></h6>' +
+			'<h5><span class="fa fa-clock-o w3-col m1 s3 w3-hide-small w3-hide-medium"></span></h5><h6><span><b> Status: </b></span><span ><span class="w3-rest" style="font-weight:bold;color:black;"> ' +
+			c.status + '</span></h6>' +
 			'</div>' +
 			'</div>' +
 			'</div>' +
