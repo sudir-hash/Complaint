@@ -18,14 +18,18 @@ const mysql = require('mysql');
 const dotenv = require("dotenv");
 dotenv.config()
 
-con = mysql.createConnection(
-	{
-		"host": process.env.host || "localhost",
-		"user": process.env.user,
-		"password": process.env.password,
-		"database": process.env.database
+var db_config = {
+	  host: process.env.host,
+	  user: process.env.user,
+	  password: process.env.password,
+	  database: process.env.database
+  };
 
-	}
+
+  
+
+con = mysql.createConnection(
+	db_config
 );
 con.connect(function (err) {
 	if (err) {
@@ -35,6 +39,29 @@ con.connect(function (err) {
 	console.log("DB Connected!");
 });
 
+
+function handleDisconnect() {
+	connection = mysql.createConnection(db_config); // Recreate the connection, since
+													// the old one cannot be reused.
+  
+	connection.connect(function(err) {              // The server is either down
+	  if(err) {                                     // or restarting (takes a while sometimes).
+		console.log('error when connecting to db:', err);
+		setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
+	  }                                     // to avoid a hot loop, and to allow our node script to
+	});                                     // process asynchronous requests in the meantime.
+											// If you're also serving http, display a 503 error.
+	connection.on('error', function(err) {
+	  console.log('db error', err);
+	  if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+		handleDisconnect();                         // lost due to either server restart, or a
+	  } else {                                      // connnection idle timeout (the wait_timeout
+		throw err;                                  // server variable configures this)
+	  }
+	});
+  }
+  
+  handleDisconnect();
 // var MySQL_Connection_Details;
 // fs.readFile('MySQL_Connection_Details','utf8',function(err, data) {
 //     MySQL_Connection_Details=JSON.parse('{'+data+'}');
@@ -494,5 +521,5 @@ app.get('/escalateAdmin', function (res, req) {
 
 app.listen(
 	process.env.PORT || 9000, function () {
-		//console.log('listening');
+		console.log('listening');
 	});

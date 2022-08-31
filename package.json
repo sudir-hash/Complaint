@@ -12,11 +12,11 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.0.2",
     "express": "^4.16.2",
     "express-session": "^1.17.3",
     "md5": "^2.3.0",
-    "mysql": "^2.18.1",
+    "mysql": "*",
     "socket.io": "^2.0.4"
   },
   "devDependencies": {
