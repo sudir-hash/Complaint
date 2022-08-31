@@ -43,7 +43,9 @@ function handleDisconnect() {
 	  if(err) {                                     // or restarting (takes a while sometimes).
 		console.log('error when connecting to db:', err);
 		setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
-	  }                                     // to avoid a hot loop, and to allow our node script to
+	  }    
+		console.log("Db connected");
+		// to avoid a hot loop, and to allow our node script to
 	});                                     // process asynchronous requests in the meantime.
 											// If you're also serving http, display a 503 error.
 	con.on('error', function(err) {
@@ -57,13 +59,7 @@ function handleDisconnect() {
   }
   
   handleDisconnect();
-con.connect(function (err) {
-	if (err) {
-		console.log("Error!")
-		throw err;
-	}
-	console.log("DB Connected!");
-});
+
 // var MySQL_Connection_Details;
 // fs.readFile('MySQL_Connection_Details','utf8',function(err, data) {
 //     MySQL_Connection_Details=JSON.parse('{'+data+'}');
