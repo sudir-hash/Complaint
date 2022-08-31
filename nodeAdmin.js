@@ -102,7 +102,7 @@ function getAllHistory(req,res,con){
 		}
 		let res_obj	=	[]
 		
-		console.log(result)
+		//console.log(result)
 		res.end(JSON.stringify(result));
 	})
 };
