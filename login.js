@@ -221,6 +221,7 @@ app.get('/getData', function (req, resp) {
 
 app.post('/signup',function(req,resp){
 	var values=req.body;
+	values.password=md5(values.password);
 	var sql = "INSERT INTO student_info (name,email, password, roll_no, phone_no, room_no, gender) VALUES ('"+values.name+"','"+values.email+"','"+values.password+"','"+values.rollno+"','"+values.phoneno+"','"+values.roomno+"','"+values.gender+"')";
   	//resp.end(next);
   	con.query(sql, function (err, result) {
@@ -239,6 +240,7 @@ app.post('/signup',function(req,resp){
 app.get('/signin',function(req,resp){
 	var values=req.query;
 	var sess=values;
+	values.password=md5(values.password);
 	////console.log(sess.type);
 	if(sess.type=="S"){
 		var sql = "SELECT * FROM student_info WHERE email='"+values.email+"' and password='"+values.password+"'";
