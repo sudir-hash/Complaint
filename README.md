@@ -7,3 +7,8 @@ a node js based web application for managing complaint in a hostel in any univer
 2. go into projects root folder
 3. npm i
 5. npm run dev  
+
+
+
+# Deployed Version
+http://hostel-complaint-app.herokuapp.com/
