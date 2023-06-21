@@ -300,6 +300,7 @@
 </body>
 <script>
 	//console.log(sessionStorage);
+	
 	$('[name="dashBoardButtons"]').click(function () {
 		$('[name="dashBoardButtons"]').removeClass('w3-border-light-grey w3-rightbar w3-flat-belize-hole');
 		$(this).addClass('w3-border-light-grey w3-rightbar w3-flat-belize-hole');
@@ -415,10 +416,7 @@
 		return false;
 	});
 
-	$(document).ready(function () {
-		$('#infoButton').trigger('click');
-		window.history.pushState("", "", '/student');
-	});
+	
 
 	$("#infoButton").click(function () {
 		$.ajax({
@@ -458,8 +456,9 @@
 					},
 					success: function (data) {
 						data = JSON.parse(data);
+						if(data==="false"||data==false)return;
 						//console.log(data);
-						if (data != "false") {
+						// if (data != "false") {
 							$("#complaintsRegistered").html(data[0].total);
 							if (data.length > 1) {
 								$("#complaintsSolved").html(data[1].total);
@@ -469,7 +468,7 @@
 								$("#complaintsSolved").html(data[0].total);
 								$("#complaintsPending").html(0);
 							}
-						}
+						// }
 					}
 				});
 			}

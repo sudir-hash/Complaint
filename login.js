@@ -60,21 +60,6 @@ function handleDisconnect() {
   
   handleDisconnect();
 
-// var MySQL_Connection_Details;
-// fs.readFile('MySQL_Connection_Details','utf8',function(err, data) {
-//     MySQL_Connection_Details=JSON.parse('{'+data+'}');
-// 	con = mysql.createConnection(
-// 		MySQL_Connection_Details
-// 	);
-// 	con.connect(function(err) {
-// 	  if (err){ 
-// 	  	//console.log("Error!") 
-// 	  	throw err;
-// 	  }
-// 	  //console.log("Connected!");
-// 	});
-// });
-
 
 
 
@@ -85,15 +70,13 @@ app.use(express.static(__dirname + '/dist'));
 app.use(express.static(__dirname + ''));
 app.use(express.static(__dirname + '/fa'));
 app.use(session({ secret: 'key', cookie: { maxAge: 600000 }, saveUninitialized: true, resave: true }));
-
-
-// app.use((req,res,next)=>{
-// 	//console.log(req.session)
-// 	next()
-// })
+app.use((req,res,next)=>{
+	console.log(req.session);
+	req.body.student_id=req.session.student_id;
+	next()
+})
 
 app.get('/', function (req, resp) {
-
 	resp.sendFile(path.resolve('index.html'));
 	return;
 	////console.log(req);
@@ -257,6 +240,7 @@ app.get('/signin',function(req,resp){
 		    	return;
 		    }
 			req.session.role	=	"student";
+			req.session.student_id	=	result[0].student_id;
 		    resp.end(JSON.stringify(result));
 			return;
 	  	});
@@ -320,7 +304,6 @@ app.get('/logout', function (req, resp) {
 
 app.post('/userLodge', function (req, res) {
 	var value = req.body;
-	//console.log(value);
 	var cost = 0;
 	var otp = parseInt((new Date() / 1000) * Math.random()) % 10000 + 42;
 	////console.log(x);
@@ -331,11 +314,11 @@ app.post('/userLodge', function (req, res) {
 	//"values('1','abc','desc','hostel','carpenter','9-10')";
 	con.query(sql, function (err, result) {
 		if (err) {
-			//console.log(err);
+			console.log(err);
 			res.end("false");
 			return;
 		}
-		//console.log("1 complaint registered");
+		console.log("complaint registered");
 		res.end("true");
 		return;
 	})
@@ -424,7 +407,7 @@ app.get('/userComplaintAnalytics', function (req, res) {
 	con.query(sql, function (err, result) {
 		if (err) {
 			//console.log(err);
-			res.end("false");
+			res.end(false);
 			return;
 		}
 		else {
